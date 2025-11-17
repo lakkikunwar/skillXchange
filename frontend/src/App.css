@@ -1,0 +1,7 @@
+/* Keep #root simple so full-page layouts can control spacing */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
