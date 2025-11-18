@@ -1,3 +1,86 @@
+/* Overlay that covers the entire screen */
+.auth-error-popup-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0,0,0,0.08);
+}
+
+/* Modal card style */
+.auth-error-popup {
+	background: #fff;
+	color: #333;
+	border-radius: 24px;
+	box-shadow: 0 8px 32px rgba(40, 20, 80, 0.18);
+	max-width: 340px;
+	width: 100%;
+	padding: 32px 28px 24px 28px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	animation: fadeIn 0.3s ease;
+}
+
+.auth-error-popup__icon {
+	width: 70px;
+	height: 70px;
+	background: #ff4d4f;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 18px;
+	font-size: 38px;
+	color: #fff;
+}
+
+.auth-error-popup__title {
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #ff4d4f;
+	margin-bottom: 8px;
+	text-align: center;
+}
+
+.auth-error-popup__desc {
+	font-size: 1rem;
+	color: #888;
+	margin-bottom: 22px;
+	text-align: center;
+}
+
+.auth-error-popup__button {
+	background: #ff4d4f;
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 28px;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	box-shadow: 0 2px 8px rgba(40, 20, 80, 0.10);
+	transition: background 0.2s;
+}
+.auth-error-popup__button:hover {
+	background: #d32f2f;
+}
+
+@keyframes fadeIn {
+	from {
+		transform: scale(0.95);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
 /* Page Layout */
 .auth-page {
 	position: relative;
@@ -47,7 +130,7 @@
 /* Ensure content sits above the overlays */
 .auth-page > * { position: relative; z-index: 1; }
 
-.hero { position: relative; height: 100%; grid-area: hero; }
+.hero { position: relative; height: 100%; grid-area: hero; background: none !important; }
 
 .hero-overlay {
 	position: relative;

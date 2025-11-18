@@ -1,0 +1,308 @@
+
+.pricing-page {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  min-height: 100vh;
+  padding-top: 90px;
+  color: #e2e8f0;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+
+.pricing-hero {
+  text-align: center;
+  padding: 4rem 0 6rem;
+}
+.pricing-hero h1 {
+  font-size: 3.2rem;
+  margin-bottom: 1rem;
+  color: #34d399;
+}
+.pricing-hero p {
+  font-size: 1.2rem;
+  color: #94a3b8;
+}
+
+
+.section-title {
+  font-size: 2.4rem;
+  text-align: center;
+  margin: 4rem 0 1.5rem;
+  color: #34d399;
+}
+.section-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #10b981;
+  margin-bottom: 2rem;
+}
+
+/* SECTION 1: Membership */
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+  margin-bottom: 5rem;
+}
+.plan-card {
+  background: rgba(30,41,59,0.85);
+  border-radius: 1.2rem;
+  padding: 2rem;
+  border: 1px solid #334155;
+  position: relative;
+  transition: box-shadow 0.3s, transform 0.3s;
+  box-shadow: 0 2px 16px 0 rgba(15,23,42,0.12);
+}
+.plan-card:hover {
+  border-color: #34d399;
+  box-shadow: 0 4px 24px 0 rgba(52,211,153,0.12);
+  transform: translateY(-8px);
+}
+.plan-header h3 {
+  font-size: 1.6rem;
+  color: #e2e8f0;
+}
+.plan-header .price {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #34d399;
+  margin: 1rem 0;
+}
+.plan-header .price span {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+.features {
+  list-style: none;
+  margin: 1.5rem 0;
+}
+.features li {
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #cbd5e1;
+}
+.plan-btn {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  margin-top: 1rem;
+}
+.plan-btn.active {
+  background: #34d399;
+  color: white;
+}
+.plan-btn.premium {
+  background: #1e40af;
+  color: white;
+}
+.plan-btn.premium:hover {
+  background: #2563eb;
+}
+.popular-badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f59e0b;
+  color: black;
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+/* SECTION 2: Buy Credits */
+
+.credits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin: 3rem 0;
+}
+.credit-pack {
+  background: rgba(30,41,59,0.92);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  border: 1px solid #334155;
+  position: relative;
+  transition: box-shadow 0.3s, transform 0.3s;
+  box-shadow: 0 2px 12px 0 rgba(15,23,42,0.10);
+}
+.credit-pack:hover {
+  border-color: #34d399;
+  box-shadow: 0 4px 20px 0 rgba(52,211,153,0.10);
+  transform: scale(1.04);
+}
+.credit-pack h3 {
+  font-size: 1.4rem;
+  color: #e2e8f0;
+}
+.pack-price {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #34d399;
+  margin: 0.8rem 0;
+}
+.per {
+  color: #94a3b8;
+  margin-bottom: 1.2rem;
+}
+.buy-btn {
+  background: #34d399;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+.buy-btn:hover {
+  background: #10b981;
+}
+.best-value {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #34d399;
+  color: black;
+  padding: 0.4rem 1.1rem;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+/* SECTION 3: Withdraw */
+
+.withdraw-section {
+  background: rgba(30,41,59,0.5);
+  border-radius: 1.5rem;
+  padding: 3rem 1.5rem;
+  margin: 4rem 0;
+}
+.earn-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.flow-item {
+  text-align: center;
+}
+.flow-item svg {
+  width: 48px;
+  height: 48px;
+  color: #34d399;
+  margin-bottom: 0.7rem;
+}
+.flow-item h4 {
+  color: #e2e8f0;
+  margin: 0.7rem 0;
+}
+.flow-arrow {
+  font-size: 1.5rem;
+  color: #34d399;
+}
+.withdraw-box {
+  text-align: center;
+  background: rgba(52,211,153,0.12);
+  border: 2px dashed #34d399;
+  border-radius: 1.2rem;
+  padding: 2rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.rate {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #34d399;
+  margin: 1rem 0;
+}
+.example {
+  font-size: 1rem;
+  color: #94a3b8;
+  margin: 1rem 0;
+}
+.withdraw-btn {
+  background: #34d399;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+/* FAQ */
+
+.faq-snippet {
+  text-align: center;
+  margin: 4rem 0;
+}
+.faq-item {
+  background: rgba(30,41,59,0.6);
+  padding: 1.2rem;
+  border-radius: 0.8rem;
+  margin: 0.7rem auto;
+  max-width: 600px;
+  color: #e2e8f0;
+}
+
+/* Footer */
+
+.pricing-footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: #64748b;
+  border-top: 1px solid #1e293b;
+  font-size: 1rem;
+}
+
+
+@media (max-width: 900px) {
+  .container {
+    padding: 0 1rem;
+  }
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
+  .credits-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .pricing-hero h1 {
+    font-size: 2rem;
+  }
+  .section-title {
+    font-size: 1.3rem;
+  }
+  .plans-grid, .credits-grid {
+    grid-template-columns: 1fr;
+  }
+  .withdraw-section {
+    padding: 1rem 0.5rem;
+  }
+  .faq-item {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+}

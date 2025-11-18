@@ -1,11 +1,57 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AuthPage.css";
 
-export default function AuthPage() {
+import { createPortal } from "react-dom";
+
+// Error popup rendered via portal at the end of <body>
+const ErrorPopup = ({ message, onClose }) => {
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+		const timer = setTimeout(onClose, 5000);
+		return () => clearTimeout(timer);
+	}, [onClose]);
+
+	if (!mounted) return null;
+
+	return createPortal(
+		<div className="auth-error-popup-overlay">
+			<div className="auth-error-popup">
+				<div className="auth-error-popup__icon">
+					<svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<circle cx="19" cy="19" r="19" fill="#ff4d4f"/>
+						<path d="M13 13L25 25" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+						<path d="M25 13L13 25" stroke="white" strokeWidth="3" strokeLinecap="round"/>
+					</svg>
+				</div>
+				<div className="auth-error-popup__title">Error</div>
+				<div className="auth-error-popup__desc">{message || "Something went wrong. Please try again."}</div>
+				<button className="auth-error-popup__button" onClick={onClose}>Try again</button>
+			</div>
+		</div>,
+		document.body
+	);
+};
+
+const AuthPage = () => {
+	const [error, setError] = useState("");
+	const [showError, setShowError] = useState(false);
+	       // Auto-hide error popup after 5 seconds
+	       useEffect(() => {
+		       if (showError) {
+			       const timer = setTimeout(() => {
+				       setShowError(false);
+			       }, 5000);
+			       return () => clearTimeout(timer);
+		       }
+	       }, [showError]);
 	const [mode, setMode] = useState("signup"); // 'signup' | 'login'
 	const animatorRef = useRef(null);
 	const contentRef = useRef(null);
 	const navRef = useRef(null);
+	const navigate = useNavigate();
 
 	// Smart hide-on-scroll for mobile navbar
 	useEffect(() => {
@@ -86,15 +132,44 @@ export default function AuthPage() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		setError("");
+		setShowError(false);
 		const form = new FormData(e.currentTarget);
 		const payload = Object.fromEntries(form.entries());
-		// TODO: Replace with real API call
-		console.log(`${mode} payload:`, payload);
-		alert(`${mode === "signup" ? "Signed up" : "Logged in"} successfully (demo)`);
+		const endpoint = mode === "signup" ? "/api/auth/signup" : "/api/auth/login";
+		fetch(endpoint, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(payload)
+		})
+			.then(async (res) => {
+				if (!res.ok) {
+					const errorMsg = await res.text();
+					throw new Error(errorMsg || "Request failed");
+				}
+				return res.json();
+			})
+			.then((data) => {
+				if (mode === "signup") {
+					navigate("/onboarding");
+				} else {
+					// Optionally store token: localStorage.setItem('token', data)
+					navigate("/login-success");
+				}
+			})
+			.catch((err) => {
+				setError(err.message || `Failed to ${mode === "signup" ? "sign up" : "log in"}. Please retry.`);
+				setShowError(true);
+			});
 	};
 
 	return (
 		<div className="auth-page">
+			{showError && error && (
+				<ErrorPopup message={error} onClose={() => setShowError(false)} />
+			)}
 			<header className="mobile-navbar" ref={navRef}>
 				<div className="mobile-navbar__inner">
 					<h1 className="mobile-navbar__brand">Skillxchange</h1>
@@ -118,17 +193,14 @@ export default function AuthPage() {
 						<div className="cat-card">
 							<div className="cat-icon">💻</div>
 							<div className="cat-title">Coding</div>
-							<button className="cat-btn" type="button">Music</button>
 						</div>
 						<div className="cat-card">
 							<div className="cat-icon">🎨</div>
 							<div className="cat-title">Design</div>
-							<button className="cat-btn" type="button">Music</button>
 						</div>
 						<div className="cat-card">
 							<div className="cat-icon">🎵</div>
 							<div className="cat-title">Music</div>
-							<button className="cat-btn" type="button">Cooking</button>
 						</div>
 					</div>
 				</div>
@@ -166,72 +238,72 @@ export default function AuthPage() {
 						</button>
 					</div>
 
-						{/* Animated height wrapper to smoothly expand/shrink */}
-						<div className="panel-animator" ref={animatorRef}>
-							{/* Keyed content triggers enter animation and height measurement */}
-							<div className="panel-content" key={mode} data-mode={mode} ref={contentRef}>
-						<h2 className="panel-title">
-							{mode === "signup" ? "Join SkillChange" : "Welcome back"}
-						</h2>
+					{/* Animated height wrapper to smoothly expand/shrink */}
+					<div className="panel-animator" ref={animatorRef}>
+						{/* Keyed content triggers enter animation and height measurement */}
+						<div className="panel-content" key={mode} data-mode={mode} ref={contentRef}>
+							<h2 className="panel-title">
+								{mode === "signup" ? "Join skillXchange" : "Welcome back"}
+							</h2>
 
-						<form className="auth-form" onSubmit={handleSubmit}>
-							{mode === "signup" && (
+							<form className="auth-form" onSubmit={handleSubmit}>
+								{mode === "signup" && (
+									<div className="field">
+										<label htmlFor="name">Name</label>
+										<input
+											id="name"
+											name="name"
+											type="text"
+											placeholder="Your name"
+											required
+										/>
+									</div>
+								)}
+
 								<div className="field">
-									<label htmlFor="name">Name</label>
+									<label htmlFor="email">Email</label>
 									<input
-										id="name"
-										name="name"
-										type="text"
-										placeholder="Your name"
+										id="email"
+										name="email"
+										type="email"
+										placeholder="you@example.com"
 										required
 									/>
 								</div>
-							)}
 
-							<div className="field">
-								<label htmlFor="email">Email</label>
-								<input
-									id="email"
-									name="email"
-									type="email"
-									placeholder="you@example.com"
-									required
-								/>
+								<div className="field">
+									<label htmlFor="password">Password</label>
+									<input
+										id="password"
+										name="password"
+										type="password"
+										placeholder="••••••••"
+										required
+										minLength={6}
+									/>
+								</div>
+
+								<button className="primary-btn" type="submit">
+									{mode === "signup" ? "Sign Up" : "Log In"}
+								</button>
+							</form>
+
+							<div className="divider">
+								<span>Or continue with</span>
 							</div>
 
-							<div className="field">
-								<label htmlFor="password">Password</label>
-								<input
-									id="password"
-									name="password"
-									type="password"
-									placeholder="••••••••"
-									required
-									minLength={6}
-								/>
+							<div className="socials">
+								<button className="social-btn google" type="button">
+									<span>G</span> Google
+								</button>
+								<button className="social-btn facebook" type="button">
+									<span>f</span> Facebook
+								</button>
 							</div>
 
-							<button className="primary-btn" type="submit">
-								{mode === "signup" ? "Sign Up" : "Log In"}
-							</button>
-						</form>
-
-						<div className="divider">
-							<span>Or continue with</span>
-						</div>
-
-						<div className="socials">
-							<button className="social-btn google" type="button">
-								<span>G</span> Google
-							</button>
-							<button className="social-btn facebook" type="button">
-								<span>f</span> Facebook
-							</button>
-						</div>
-
-						<p className="terms">
-							By registering you agree to our <a href="#">Terms and Conditions</a>
-						</p>
+							<p className="terms">
+								By registering you agree to our <a href="#">Terms and Conditions</a>
+							</p>
 						</div>
 					</div>
 				</div>
@@ -239,4 +311,7 @@ export default function AuthPage() {
 		</div>
 	);
 }
+
+export default AuthPage;
+
 
